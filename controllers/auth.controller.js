@@ -35,13 +35,11 @@ const signInUser = async (req, res) => {
       return res.status(404).json("Email not found");
     }
 
-    // Verify password
     const passwordValid = await bcrypt.compare(password, user.password);
     if (!passwordValid) {
       return res.status(404).json("Incorrect email and password combination");
     }
 
-    // Authenticate user with jwt
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRECT_KEY, {
       expiresIn: "3 days",
     });
