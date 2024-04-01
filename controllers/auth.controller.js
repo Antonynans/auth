@@ -32,12 +32,12 @@ const signInUser = async (req, res) => {
       where: { email },
     });
     if (!user) {
-      return res.status(404).json("Email not found");
+      return res.status(400).json("Email not found");
     }
 
     const passwordValid = await bcrypt.compare(password, user.password);
     if (!passwordValid) {
-      return res.status(404).json("Incorrect email and password combination");
+      return res.status(400).json("Incorrect email and password combination");
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRECT_KEY, {
